@@ -12,14 +12,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class BookRepositoryImpl implements BookRepository {
-    private final EntityManagerFactory entityManagerFactor;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Override
     public Book save(Book book) {
         EntityManager entityManager = null;
         EntityTransaction transaction = null;
         try {
-            entityManager = entityManagerFactor.createEntityManager();
+            entityManager = entityManagerFactory.createEntityManager();
             transaction = entityManager.getTransaction();
             entityManager.persist(book);
             transaction.commit();
@@ -38,7 +38,7 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        try (EntityManager entityManager = entityManagerFactor.createEntityManager()) {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return entityManager.createQuery("SELECT b FROM Book b", Book.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't find all books", e);
