@@ -1,10 +1,13 @@
 package makaroshyna.onlinebookstore.service;
 
 import java.util.List;
-import makaroshyna.onlinebookstore.model.Book;
+import makaroshyna.onlinebookstore.dto.BookDto;
+import makaroshyna.onlinebookstore.dto.CreateBookRequestDto;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(CreateBookRequestDto requestDto);
 
-    List<Book> findAll();
+    List<BookDto> findAll();
+
+    BookDto findById(Long id);
 }
