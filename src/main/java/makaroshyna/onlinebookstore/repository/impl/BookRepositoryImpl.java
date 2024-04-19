@@ -21,6 +21,7 @@ public class BookRepositoryImpl implements BookRepository {
         EntityTransaction transaction = null;
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             transaction = entityManager.getTransaction();
+            transaction.begin();
             entityManager.persist(book);
             transaction.commit();
             return book;
