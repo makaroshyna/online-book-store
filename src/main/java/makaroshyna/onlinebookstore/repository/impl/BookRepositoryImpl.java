@@ -18,8 +18,10 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public Book save(Book book) {
+        EntityManager entityManager = null;
         EntityTransaction transaction = null;
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
             transaction = entityManager.getTransaction();
             transaction.begin();
             entityManager.persist(book);
@@ -30,6 +32,10 @@ public class BookRepositoryImpl implements BookRepository {
                 transaction.rollback();
             }
             throw new EntityNotFoundException("Can't insert book into DB: " + book, e);
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
         }
     }
 
