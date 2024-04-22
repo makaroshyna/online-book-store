@@ -6,7 +6,7 @@ import jakarta.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
+import makaroshyna.onlinebookstore.exception.DataProcessingException;
 import makaroshyna.onlinebookstore.model.Book;
 import makaroshyna.onlinebookstore.repository.BookRepository;
 import org.springframework.stereotype.Repository;
@@ -31,7 +31,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
-            throw new EntityNotFoundException("Can't insert book into DB: " + book, e);
+            throw new DataProcessingException("Can't insert book into DB: " + book, e);
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -45,7 +45,7 @@ public class BookRepositoryImpl implements BookRepository {
             Book book = entityManager.find(Book.class, id);
             return Optional.ofNullable(book);
         } catch (Exception e) {
-            throw new EntityNotFoundException("Can't find book with id: " + id, e);
+            throw new DataProcessingException("Can't find book with id: " + id, e);
         }
     }
 
@@ -54,7 +54,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return entityManager.createQuery("FROM Book", Book.class).getResultList();
         } catch (Exception e) {
-            throw new EntityNotFoundException("Can't find all books", e);
+            throw new DataProcessingException("Can't find all books", e);
         }
     }
 }
