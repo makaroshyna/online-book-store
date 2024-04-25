@@ -3,6 +3,7 @@ package makaroshyna.onlinebookstore.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.BookDto;
+import makaroshyna.onlinebookstore.dto.BookSearchParametersDto;
 import makaroshyna.onlinebookstore.dto.CreateBookRequestDto;
 import makaroshyna.onlinebookstore.service.BookService;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,11 @@ public class BookController {
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        return bookService.search(searchParameters);
     }
 
     @PostMapping
