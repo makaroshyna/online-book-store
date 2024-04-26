@@ -13,7 +13,7 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
     private final List<SpecificationProvider<Book>> bookSpecificationProviders;
 
     @Override
-    public SpecificationProvider<Book> getSpecificationProvider(String key) {
+    public SpecificationProvider<Book> getSpecificationProvider(BookParameterName key) {
         return bookSpecificationProviders.stream()
                 .filter(provider -> provider.getKey().equals(key))
                 .findFirst()

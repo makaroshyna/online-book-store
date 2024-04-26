@@ -4,14 +4,15 @@ import static makaroshyna.onlinebookstore.repository.book.BookParameterName.TITL
 
 import makaroshyna.onlinebookstore.model.Book;
 import makaroshyna.onlinebookstore.repository.SpecificationProvider;
+import makaroshyna.onlinebookstore.repository.book.BookParameterName;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TitleSpecificationProvider implements SpecificationProvider<Book> {
     @Override
-    public String getKey() {
-        return TITLE.getName();
+    public BookParameterName getKey() {
+        return TITLE;
     }
 
     @Override
