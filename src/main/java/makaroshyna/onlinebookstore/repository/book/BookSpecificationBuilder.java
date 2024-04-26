@@ -9,6 +9,7 @@ import makaroshyna.onlinebookstore.dto.BookSearchParametersDto;
 import makaroshyna.onlinebookstore.model.Book;
 import makaroshyna.onlinebookstore.repository.SpecificationBuilder;
 import makaroshyna.onlinebookstore.repository.SpecificationProviderManager;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +26,11 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
                 buildSpecification(TITLE, searchParameters.title()));
     }
 
-    private Specification<Book> buildSpecification(BookParameterName paramName, String param) {
-        if (param != null && !param.isBlank()) {
+    private Specification<Book> buildSpecification(BookParameterName paramName, String paramValue) {
+        if (!StringUtils.isBlank(paramValue)) {
             return bookSpecificationProviderManager
-                    .getSpecificationProvider(paramName.getName())
-                    .getSpecification(param);
+                    .getSpecificationProvider(paramName)
+                    .getSpecification(paramValue);
         }
 
         return null;

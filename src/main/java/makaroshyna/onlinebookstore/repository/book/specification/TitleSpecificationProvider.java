@@ -15,8 +15,8 @@ public class TitleSpecificationProvider implements SpecificationProvider<Book> {
     }
 
     @Override
-    public Specification<Book> getSpecification(String param) {
+    public Specification<Book> getSpecification(String paramValue) {
         return (root, query, criteriaBuilder) ->
-                root.get(TITLE.getName()).in(param);
+                root.get(TITLE.getName()).in(paramValue);
     }
 }
