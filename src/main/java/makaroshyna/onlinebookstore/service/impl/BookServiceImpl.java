@@ -11,6 +11,7 @@ import makaroshyna.onlinebookstore.model.Book;
 import makaroshyna.onlinebookstore.repository.book.BookRepository;
 import makaroshyna.onlinebookstore.repository.book.BookSpecificationBuilder;
 import makaroshyna.onlinebookstore.service.BookService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,8 +28,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookRepository.findAll().stream()
+    public List<BookDto> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -56,8 +57,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> search(BookSearchParametersDto parameters) {
-        return bookRepository.findAll(bookSpecificationBuilder.build(parameters))
+    public List<BookDto> search(BookSearchParametersDto parameters, Pageable pageable) {
+        return bookRepository.findAll(bookSpecificationBuilder.build(parameters), pageable)
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
