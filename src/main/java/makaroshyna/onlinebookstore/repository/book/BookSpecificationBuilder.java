@@ -5,7 +5,7 @@ import static makaroshyna.onlinebookstore.repository.book.BookParameterName.ISBN
 import static makaroshyna.onlinebookstore.repository.book.BookParameterName.TITLE;
 
 import lombok.RequiredArgsConstructor;
-import makaroshyna.onlinebookstore.dto.BookSearchParametersDto;
+import makaroshyna.onlinebookstore.dto.book.BookSearchParametersDto;
 import makaroshyna.onlinebookstore.model.Book;
 import makaroshyna.onlinebookstore.repository.SpecificationBuilder;
 import makaroshyna.onlinebookstore.repository.SpecificationProviderManager;

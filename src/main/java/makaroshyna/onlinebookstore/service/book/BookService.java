@@ -1,9 +1,9 @@
-package makaroshyna.onlinebookstore.service;
+package makaroshyna.onlinebookstore.service.book;
 
 import java.util.List;
-import makaroshyna.onlinebookstore.dto.BookDto;
-import makaroshyna.onlinebookstore.dto.BookSearchParametersDto;
-import makaroshyna.onlinebookstore.dto.CreateBookRequestDto;
+import makaroshyna.onlinebookstore.dto.book.BookDto;
+import makaroshyna.onlinebookstore.dto.book.BookSearchParametersDto;
+import makaroshyna.onlinebookstore.dto.book.CreateBookRequestDto;
 import org.springframework.data.domain.Pageable;
 
 public interface BookService {

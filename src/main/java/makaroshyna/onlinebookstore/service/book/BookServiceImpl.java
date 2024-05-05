@@ -1,16 +1,15 @@
-package makaroshyna.onlinebookstore.service.impl;
+package makaroshyna.onlinebookstore.service.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import makaroshyna.onlinebookstore.dto.BookDto;
-import makaroshyna.onlinebookstore.dto.BookSearchParametersDto;
-import makaroshyna.onlinebookstore.dto.CreateBookRequestDto;
+import makaroshyna.onlinebookstore.dto.book.BookDto;
+import makaroshyna.onlinebookstore.dto.book.BookSearchParametersDto;
+import makaroshyna.onlinebookstore.dto.book.CreateBookRequestDto;
 import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
 import makaroshyna.onlinebookstore.mapper.BookMapper;
 import makaroshyna.onlinebookstore.model.Book;
 import makaroshyna.onlinebookstore.repository.book.BookRepository;
 import makaroshyna.onlinebookstore.repository.book.BookSpecificationBuilder;
-import makaroshyna.onlinebookstore.service.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
