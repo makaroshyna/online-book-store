@@ -27,5 +27,4 @@ public @interface FieldMatch {
     @interface List {
         FieldMatch[] value();
     }
-
 }
