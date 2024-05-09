@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-roles-table
+      author: makaroshyna
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "USER"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: "ADMIN"

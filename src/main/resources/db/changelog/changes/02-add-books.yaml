@@ -1,0 +1,215 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-books
+      author: makaroshyna
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "The Fellowship of the Ring"
+              - column:
+                  name: author
+                  value: "J. R. R. Tolkien"
+              - column:
+                  name: isbn
+                  value: "9780007136599"
+              - column:
+                  name: price
+                  valueNumeric: "520.5"
+              - column:
+                  name: description
+                  value: "The Fellowship of the Ring is the first of three volumes of the epic novel The Lord of the Rings by the English author J. R. R. Tolkien. The action takes place in the fictional universe of Middle-earth."
+              - column:
+                  name: cover_image
+                  value: "thefellowshipofthering.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "The Two Towers"
+              - column:
+                  name: author
+                  value: "J. R. R. Tolkien"
+              - column:
+                  name: isbn
+                  value: "9780007136568"
+              - column:
+                  name: price
+                  valueNumeric: "490"
+              - column:
+                  name: description
+                  value: "The Two Towers is the second volume of J. R. R. Tolkien's high fantasy novel The Lord of the Rings."
+              - column:
+                  name: cover_image
+                  value: "thetwotowers.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "The Return of the King"
+              - column:
+                  name: author
+                  value: "J. R. R. Tolkien"
+              - column:
+                  name: isbn
+                  value: "9780007136575"
+              - column:
+                  name: price
+                  valueNumeric: "800"
+              - column:
+                  name: description
+                  value: "The Return of the King is the third and final volume of J. R. R. Tolkien's The Lord of the Rings. The story begins in the kingdom of Gondor, which is soon to be attacked by the Dark Lord Sauron."
+              - column:
+                  name: cover_image
+                  value: "thereturnoftheking.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "The Hobbit"
+              - column:
+                  name: author
+                  value: "J. R. R. Tolkien"
+              - column:
+                  name: isbn
+                  value: "9780007525508"
+              - column:
+                  name: price
+                  valueNumeric: "280"
+              - column:
+                  name: description
+                  value: "The Hobbit, or There and Back Again is a children's fantasy novel by the English author J. R. R. Tolkien."
+              - column:
+                  name: cover_image
+                  value: "thehobbit.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "The Silmarillion"
+              - column:
+                  name: author
+                  value: "J. R. R. Tolkien"
+              - column:
+                  name: isbn
+                  value: "9780618391110"
+              - column:
+                  name: price
+                  valueNumeric: "1010.8"
+              - column:
+                  name: description
+                  value: "The Silmarillion is a book consisting of a collection of myths[a][T 1] and stories in varying styles by the English writer J. R. R. Tolkien."
+              - column:
+                  name: cover_image
+                  value: "thesilmarillion.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "The Legend of Sigurd and Gudrun"
+              - column:
+                  name: author
+                  value: "J. R. R. Tolkien"
+              - column:
+                  name: isbn
+                  value: "9780618334940"
+              - column:
+                  name: price
+                  valueNumeric: "315.85"
+              - column:
+                  name: description
+                  value: "The Legend of Sigurd and Gudrun is a book containing two narrative poems and related texts composed by English writer J. R. R. Tolkien."
+              - column:
+                  name: cover_image
+                  value: "thelegendofsigurdandgudrun.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "Pride and Prejudice"
+              - column:
+                  name: author
+                  value: "Jane Austen"
+              - column:
+                  name: isbn
+                  value: "9780141439518"
+              - column:
+                  name: price
+                  valueNumeric: "200.5"
+              - column:
+                  name: description
+                  value: "Pride and Prejudice is a novel of manners by Jane Austen, first published in 1813. The story centers on Elizabeth Bennet, the daughter of a country gentleman, and her relationship with Mr. Darcy, a wealthy and arrogant aristocrat."
+              - column:
+                  name: cover_image
+                  value: "prideandprejudice.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "1984"
+              - column:
+                  name: author
+                  value: "George Orwell"
+              - column:
+                  name: isbn
+                  value: "9780451524935"
+              - column:
+                  name: price
+                  valueNumeric: "372"
+              - column:
+                  name: description
+                  value: "1984 is a dystopian novel by George Orwell published in 1949. It depicts a future world in which a totalitarian government controls every aspect of people's lives."
+              - column:
+                  name: cover_image
+                  value: "1984.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "A Study in Scarlet"
+              - column:
+                  name: author
+                  value: "Sir Arthur Conan Doyle"
+              - column:
+                  name: isbn
+                  value: "0-14-020820-2"
+              - column:
+                  name: price
+                  valueNumeric: "190"
+              - column:
+                  name: description
+                  value: "The first Sherlock Holmes story introduces the world to the brilliant detective and his friend Dr. John Watson. The story begins with a murder investigation in London, which leads Holmes and Watson to Utah."
+              - column:
+                  name: cover_image
+                  value: "astudyinpink.jpeg"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: "The Hound of the Baskervilles"
+              - column:
+                  name: author
+                  value: "Sir Arthur Conan Doyle"
+              - column:
+                  name: isbn
+                  value: "0-14-020823-7"
+              - column:
+                  name: price
+                  valueNumeric: "179"
+              - column:
+                  name: description
+                  value: "The Hound of the Baskervilles is a Sherlock Holmes novel that was co-written by Sir Arthur Conan Doyle and his son, Adrian Conan Doyle."
+              - column:
+                  name: cover_image
+                  value: "thehoundofthebaskervilles.jpeg"
