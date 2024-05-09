@@ -22,7 +22,7 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     @Operation(summary = "Register a new user",
-            description = "Register a new user")
+            description = "Endpoint for registering new users")
     public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         return userService.register(requestDto);
