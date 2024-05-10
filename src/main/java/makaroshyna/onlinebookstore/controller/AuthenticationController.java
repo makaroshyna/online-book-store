@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import makaroshyna.onlinebookstore.dto.user.UserLoginRequestDto;
+import makaroshyna.onlinebookstore.dto.user.UserLoginResponseDto;
 import makaroshyna.onlinebookstore.dto.user.UserRegistrationRequestDto;
 import makaroshyna.onlinebookstore.dto.user.UserRegistrationResponseDto;
 import makaroshyna.onlinebookstore.exception.RegistrationException;
@@ -24,8 +26,15 @@ public class AuthenticationController {
     @Operation(summary = "Register a new user",
             description = "Endpoint for registering new users")
     public UserRegistrationResponseDto register(
-            @RequestBody @Valid UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
+            @RequestBody @Valid UserRegistrationRequestDto requestDto
+    ) throws RegistrationException {
         return userService.register(requestDto);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login a user",
+            description = "Endpoint to login users")
+    public UserLoginResponseDto login(UserLoginRequestDto requestDto) {
+        return userService.authorize(requestDto);
     }
 }
