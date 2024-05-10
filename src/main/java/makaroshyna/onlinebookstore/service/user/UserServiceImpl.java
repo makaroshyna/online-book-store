@@ -4,7 +4,7 @@ import static makaroshyna.onlinebookstore.model.Role.RoleName.USER;
 
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.user.UserRegistrationRequestDto;
-import makaroshyna.onlinebookstore.dto.user.UserResponseDto;
+import makaroshyna.onlinebookstore.dto.user.UserRegistrationResponseDto;
 import makaroshyna.onlinebookstore.mapper.UserMapper;
 import makaroshyna.onlinebookstore.model.User;
 import makaroshyna.onlinebookstore.repository.user.UserRepository;
@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
 
     @Override
-    public UserResponseDto register(UserRegistrationRequestDto requestDto) {
+    public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto) {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
             throw new RuntimeException("User with email " + requestDto.getEmail()
                                        + " already exists");
