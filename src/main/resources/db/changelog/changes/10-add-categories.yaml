@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-categories
+      author: makaroshyna
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Fantasy"
+              - column:
+                  name: description
+                  value: "Fantasy is a genre of speculative fiction involving magical elements, typically set in a fantasy world and usually inspired by mythology or folklore."
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Romance novel"
+              - column:
+                  name: description
+                  value: "A romance novel or romantic novel is a genre fiction novel that primary focuses on the relationship and romantic love between two people, typically with an emotionally satisfying and optimistic ending."
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Dystopian novel"
+              - column:
+                  name: description
+                  value: "Utopian and dystopian fiction are subgenres of speculative fiction that explore social and political structures."
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: "Detective"
+              - column:
+                  name: description
+                  value: "Detective fiction is a subgenre of crime fiction and mystery fiction in which an investigator or a detective investigates a crime, often murder."
