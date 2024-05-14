@@ -8,6 +8,7 @@ import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
 import makaroshyna.onlinebookstore.mapper.CategoryMapper;
 import makaroshyna.onlinebookstore.model.Category;
 import makaroshyna.onlinebookstore.repository.category.CategoryRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,8 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponseDto> findAll() {
-        return categoryRepository.findAll().stream()
+    public List<CategoryResponseDto> findAll(Pageable pageable) {
+        return categoryRepository.findAll(pageable).stream()
                 .map(categoryMapper::toDto)
                 .toList();
     }
