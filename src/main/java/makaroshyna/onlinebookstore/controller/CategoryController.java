@@ -46,7 +46,9 @@ public class CategoryController {
     @PostMapping
     @Operation(summary = "Create a new category",
             description = "Create a new category with generated ID")
-    public CategoryResponseDto createCategory(@RequestBody @Valid CreateCategoryRequestDto requestDto) {
+    public CategoryResponseDto createCategory(
+            @RequestBody @Valid CreateCategoryRequestDto requestDto
+    ) {
         return categoryService.save(requestDto);
     }
 
