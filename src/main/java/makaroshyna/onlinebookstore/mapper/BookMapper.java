@@ -15,7 +15,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
-    @Mapping(target = "categories", ignore = true)
+    @Mapping(target = "categoryIds", ignore = true)
     BookDto toDto(Book book);
 
     Book toModel(CreateBookRequestDto requestDto);
