@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: "bob.dylan@gmail.com"
               - column:
                   name: password
-                  value: "$2a$10$vx3eVvMe4kn9h8iMliveKe73rvpYxYK9Gumy4lVKCZwkijAqzgJ9S"
+                  value: "$2a$12$NDd3ta.qEAHYOrQ9m3iJ9u..FSIeVkYuXqATEgXLvbhrDYwRgNApa"
               - column:
                   name: first_name
                   value: "Bob"
@@ -35,7 +35,7 @@ databaseChangeLog:
                   value: "alice.cooper@gmail.com"
               - column:
                   name: password
-                  value: "$2a$10$vx3eVvMe4kn9h8iMliveKe73rvpYxYK9Gumy4lVKCZwkijAqzgJ9S"
+                  value: "$2a$10$zn5IeWA4tqnzy2v6ZhrmM.SR2P1VG2v7Ys4N9Wo92Wz97mQ51f/F6"
               - column:
                   name: first_name
                   value: "Alice"

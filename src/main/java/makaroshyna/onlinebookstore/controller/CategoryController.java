@@ -10,6 +10,7 @@ import makaroshyna.onlinebookstore.dto.category.CategoryResponseDto;
 import makaroshyna.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import makaroshyna.onlinebookstore.service.category.CategoryService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Category management", description = "Endpoints for managing categories")
@@ -65,7 +67,7 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping
+    @PutMapping("/{id}")
     @Operation(summary = "Update a category by ID",
             description = "Get and update a category by ID, if there is one")
     public CategoryResponseDto updateCategoryById(
@@ -76,7 +78,8 @@ public class CategoryController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping
+    @DeleteMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a category by ID",
             description = "Delete a category by ID, if there is one")
     public void deleteCategoryById(@PathVariable Long id) {
