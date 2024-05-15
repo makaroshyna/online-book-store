@@ -2,12 +2,14 @@ package makaroshyna.onlinebookstore.service.category;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import makaroshyna.onlinebookstore.dto.book.BookDtoWithoutCategoryIds;
 import makaroshyna.onlinebookstore.dto.category.CategoryResponseDto;
 import makaroshyna.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
 import makaroshyna.onlinebookstore.mapper.CategoryMapper;
 import makaroshyna.onlinebookstore.model.Category;
 import makaroshyna.onlinebookstore.repository.category.CategoryRepository;
+import makaroshyna.onlinebookstore.service.book.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final BookService bookService;
 
     @Override
     public CategoryResponseDto save(CreateCategoryRequestDto requestDto) {
@@ -35,6 +38,11 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Category with id " + id + " not found"));
         return categoryMapper.toDto(category);
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id, Pageable pageable) {
+        return bookService.getBooksByCategoryId(id, pageable);
     }
 
     @Override

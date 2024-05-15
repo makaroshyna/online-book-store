@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import makaroshyna.onlinebookstore.dto.book.BookDtoWithoutCategoryIds;
 import makaroshyna.onlinebookstore.dto.category.CategoryResponseDto;
 import makaroshyna.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import makaroshyna.onlinebookstore.service.category.CategoryService;
@@ -40,6 +41,17 @@ public class CategoryController {
             description = "Get a category by ID, if there is one")
     public CategoryResponseDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping("/{id}/books")
+    @Operation(summary = "Get books by category ID",
+            description = "Get books by category ID, if there is one")
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
+            @PathVariable Long id,
+            Pageable pageable
+    ) {
+        return categoryService.getBooksByCategoryId(id, pageable);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
