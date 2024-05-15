@@ -3,8 +3,6 @@ package makaroshyna.onlinebookstore.service.user;
 import static makaroshyna.onlinebookstore.model.Role.RoleName.USER;
 
 import lombok.RequiredArgsConstructor;
-import makaroshyna.onlinebookstore.dto.user.UserLoginRequestDto;
-import makaroshyna.onlinebookstore.dto.user.UserLoginResponseDto;
 import makaroshyna.onlinebookstore.dto.user.UserRegistrationRequestDto;
 import makaroshyna.onlinebookstore.dto.user.UserRegistrationResponseDto;
 import makaroshyna.onlinebookstore.mapper.UserMapper;
