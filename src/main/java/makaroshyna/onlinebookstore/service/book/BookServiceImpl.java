@@ -3,6 +3,7 @@ package makaroshyna.onlinebookstore.service.book;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.book.BookDto;
+import makaroshyna.onlinebookstore.dto.book.BookDtoWithoutCategoryIds;
 import makaroshyna.onlinebookstore.dto.book.BookSearchParametersDto;
 import makaroshyna.onlinebookstore.dto.book.CreateBookRequestDto;
 import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
@@ -27,17 +28,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAll(Pageable pageable) {
+    public List<BookDto> getAll(Pageable pageable) {
         return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
 
     @Override
-    public BookDto findById(Long id) {
+    public BookDto getById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Can't find book by id: " + id));
         return bookMapper.toDto(book);
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findAllByCategoryId(id, pageable).stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .toList();
     }
 
     @Override
