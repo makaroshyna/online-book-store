@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Credentials ###
+/src/main/resources/project_credentials

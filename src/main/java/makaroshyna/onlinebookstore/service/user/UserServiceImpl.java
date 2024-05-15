@@ -9,6 +9,7 @@ import makaroshyna.onlinebookstore.mapper.UserMapper;
 import makaroshyna.onlinebookstore.model.User;
 import makaroshyna.onlinebookstore.repository.user.UserRepository;
 import makaroshyna.onlinebookstore.service.role.RoleService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto) {
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
                                        + " already exists");
         }
         User user = userMapper.toModel(requestDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail());
         user.setRoles(roleService.getAllByName(USER));
         return userMapper.toDto(userRepository.save(user));
