@@ -9,6 +9,7 @@ import makaroshyna.onlinebookstore.dto.user.UserLoginResponseDto;
 import makaroshyna.onlinebookstore.dto.user.UserRegistrationRequestDto;
 import makaroshyna.onlinebookstore.dto.user.UserRegistrationResponseDto;
 import makaroshyna.onlinebookstore.exception.RegistrationException;
+import makaroshyna.onlinebookstore.security.AuthenticationService;
 import makaroshyna.onlinebookstore.service.user.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
     private final UserService userService;
+    private final AuthenticationService authorizationService;
 
     @PostMapping("/registration")
     @Operation(summary = "Register a new user",
@@ -34,7 +36,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     @Operation(summary = "Login a user",
             description = "Endpoint to login users")
-    public UserLoginResponseDto login(UserLoginRequestDto requestDto) {
-        return userService.authorize(requestDto);
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
+        return authorizationService.authenticate(requestDto);
     }
 }

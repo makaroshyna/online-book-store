@@ -40,7 +40,7 @@ public class JwtUtil {
                     .parseSignedClaims(token);
             return !claimsJws.getPayload().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtException("Invalid or expired JSON Web Token", e);
+            return false;
         }
     }
 
