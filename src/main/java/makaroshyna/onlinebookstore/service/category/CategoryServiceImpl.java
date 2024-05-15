@@ -28,9 +28,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryResponseDto> findAll(Pageable pageable) {
-        return categoryRepository.findAll(pageable).stream()
-                .map(categoryMapper::toDto)
-                .toList();
+        List<Category> categoryList = categoryRepository.findAll(pageable).stream().toList();
+        return categoryMapper.toDtoList(categoryList);
     }
 
     @Override
