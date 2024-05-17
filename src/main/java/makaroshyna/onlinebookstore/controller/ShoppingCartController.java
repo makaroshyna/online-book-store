@@ -6,13 +6,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.cartitem.CartItemResponseDto;
 import makaroshyna.onlinebookstore.dto.cartitem.CreateCartItemRequestDto;
+import makaroshyna.onlinebookstore.dto.cartitem.UpdateCartItemRequestDto;
 import makaroshyna.onlinebookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import makaroshyna.onlinebookstore.model.User;
 import makaroshyna.onlinebookstore.service.shoppingcart.ShoppingCartService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     @Operation(summary = "Get a shopping cart of a user",
             description = "Get a shopping cart of authenticated user")
@@ -33,7 +36,7 @@ public class ShoppingCartController {
         return shoppingCartService.getByUserId(user.getId());
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     @Operation(summary = "Add a book to the shopping cart",
             description = "Add a book to the shopping cart of the user")
@@ -43,5 +46,18 @@ public class ShoppingCartController {
 
         User user = (User) authentication.getPrincipal();
         return shoppingCartService.addToCart(requestDto, user);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/cart-items/{cartItemId}")
+    @Operation(summary = "Update a book by cart item id",
+            description = "Update a books quantity by cart item ID")
+    public CartItemResponseDto updateBookQuantity(
+            @RequestBody @Valid UpdateCartItemRequestDto requestDto,
+            @PathVariable Long cartItemId,
+            Authentication authentication) {
+
+        User user = (User) authentication.getPrincipal();
+        return shoppingCartService.updateCart(requestDto, cartItemId, user);
     }
 }

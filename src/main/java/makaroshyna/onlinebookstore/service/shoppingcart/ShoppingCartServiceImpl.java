@@ -1,9 +1,11 @@
 package makaroshyna.onlinebookstore.service.shoppingcart;
 
+import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.cartitem.CartItemResponseDto;
 import makaroshyna.onlinebookstore.dto.cartitem.CreateCartItemRequestDto;
+import makaroshyna.onlinebookstore.dto.cartitem.UpdateCartItemRequestDto;
 import makaroshyna.onlinebookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
 import makaroshyna.onlinebookstore.mapper.CartItemMapper;
@@ -25,10 +27,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponseDto getByUserId(Long userId) {
-        return shoppingCartMapper.toDto(getOrCreateShoppingCartByUserId(userId));
+        return shoppingCartMapper.toDto(getShoppingCartByUserId(userId));
     }
 
     @Override
+    @Transactional
     public CartItemResponseDto addToCart(CreateCartItemRequestDto requestDto, User user) {
         ShoppingCart shoppingCart = shoppingCartRepository
                 .findByUserId(user.getId())
@@ -36,10 +39,25 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         CartItem cartItem = cartItemService.save(requestDto, shoppingCart);
         shoppingCart.getCartItems().add(cartItem);
         shoppingCartRepository.save(shoppingCart);
+
         return cartItemMapper.toDto(cartItem);
     }
 
-    private ShoppingCart getOrCreateShoppingCartByUserId(Long userId) {
+    @Override
+    @Transactional
+    public CartItemResponseDto updateCart(
+            UpdateCartItemRequestDto requestDto,
+            Long cartItemId,
+            User user) {
+
+        CartItem cartItem = cartItemService.update(cartItemId, requestDto);
+        ShoppingCart shoppingCart = getShoppingCartByUserId(user.getId());
+        shoppingCartRepository.save(shoppingCart);
+
+        return cartItemMapper.toDto(cartItem);
+    }
+
+    private ShoppingCart getShoppingCartByUserId(Long userId) {
         return shoppingCartRepository.findByUserId(userId).orElseThrow(() ->
                 new EntityNotFoundException("Can't find shopping cart by user id: " + userId));
     }
@@ -48,6 +66,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(new HashSet<>());
+
         return shoppingCart;
     }
 }
