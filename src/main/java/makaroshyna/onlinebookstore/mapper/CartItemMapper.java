@@ -12,10 +12,11 @@ import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface CartItemMapper {
-    @Mapping(target = "bookId", source = "book.id")
-    @Mapping(target = "bookTitle", source = "book.title")
+    @Mapping(source = "book.id", target = "bookId")
+    @Mapping(source = "book.title", target = "bookTitle")
     CartItemResponseDto toDto(CartItem cartItem);
 
+    @Mapping(source = "bookId", target = "book.id")
     CartItem toModel(CreateCartItemRequestDto cartItemRequestDto);
 
     @Named("setCartItems")
