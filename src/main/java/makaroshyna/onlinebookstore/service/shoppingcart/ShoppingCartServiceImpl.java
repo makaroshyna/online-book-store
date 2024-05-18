@@ -50,11 +50,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             Long cartItemId,
             User user) {
 
-        CartItem cartItem = cartItemService.update(cartItemId, requestDto);
         ShoppingCart shoppingCart = getShoppingCartByUserId(user.getId());
+        CartItem cartItem = cartItemService.update(cartItemId, requestDto);
         shoppingCartRepository.save(shoppingCart);
 
         return cartItemMapper.toDto(cartItem);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCartItem(Long cartItemId, User user) {
+        ShoppingCart shoppingCart = getShoppingCartByUserId(user.getId());
+        cartItemService.delete(cartItemId);
+        shoppingCartRepository.save(shoppingCart);
     }
 
     private ShoppingCart getShoppingCartByUserId(Long userId) {

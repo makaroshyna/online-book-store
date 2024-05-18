@@ -43,4 +43,10 @@ public class CartItemServiceImpl implements CartItemService {
 
         throw new EntityNotFoundException("CartItem with id '%s' not found" + id);
     }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        cartItemRepository.deleteById(id);
+    }
 }
