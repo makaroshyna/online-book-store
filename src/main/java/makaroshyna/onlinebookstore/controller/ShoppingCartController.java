@@ -36,7 +36,7 @@ public class ShoppingCartController {
             description = "Get a shopping cart of authenticated user")
     public ShoppingCartResponseDto getCart(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return shoppingCartService.getByUserId(user.getId());
+        return shoppingCartService.getByUserId(user);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

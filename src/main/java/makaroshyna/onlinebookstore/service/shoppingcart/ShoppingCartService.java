@@ -7,7 +7,7 @@ import makaroshyna.onlinebookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import makaroshyna.onlinebookstore.model.User;
 
 public interface ShoppingCartService {
-    ShoppingCartResponseDto getByUserId(Long userId);
+    ShoppingCartResponseDto getByUserId(User user);
 
     CartItemResponseDto addToCart(CreateCartItemRequestDto requestDto, User user);
 
