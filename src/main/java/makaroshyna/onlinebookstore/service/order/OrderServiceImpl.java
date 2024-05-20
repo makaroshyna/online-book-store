@@ -6,6 +6,7 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.order.CreateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.order.OrderResponseDto;
+import makaroshyna.onlinebookstore.dto.order.UpdateOrderRequestDto;
 import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
 import makaroshyna.onlinebookstore.mapper.OrderMapper;
 import makaroshyna.onlinebookstore.model.CartItem;
@@ -52,5 +53,14 @@ public class OrderServiceImpl implements OrderService {
         return ordersByUser.stream()
                 .map(orderMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public void updateOrder(UpdateOrderRequestDto requestDto, Long id) {
+        Order order = orderRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find order with id " + id));
+        order.setStatus(requestDto.getStatus());
+        orderRepository.save(order);
     }
 }

@@ -7,12 +7,15 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.order.CreateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.order.OrderResponseDto;
+import makaroshyna.onlinebookstore.dto.order.UpdateOrderRequestDto;
 import makaroshyna.onlinebookstore.model.User;
 import makaroshyna.onlinebookstore.service.order.OrderService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +47,16 @@ public class OrderController {
 
         User user = (User) authentication.getPrincipal();
         return orderService.saveOrder(requestDto, user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{id}")
+    @Operation(summary = "Update order status",
+            description = "Update order status of the user")
+    public void updateOrder(
+            @RequestBody @Valid UpdateOrderRequestDto requestDto,
+            @PathVariable Long id) {
+
+        orderService.updateOrder(requestDto, id);
     }
 }
