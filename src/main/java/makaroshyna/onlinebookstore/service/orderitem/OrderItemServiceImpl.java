@@ -23,9 +23,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public void saveOrderItems(Set<OrderItem> orderItem) {
-        orderItem.stream()
-                .map(orderItemRepository::save)
-                .collect(Collectors.toSet());
+    public void saveOrderItems(Set<OrderItem> orderItems) {
+        orderItemRepository.saveAll(orderItems);
     }
 }
