@@ -3,13 +3,16 @@ package makaroshyna.onlinebookstore.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.order.CreateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.order.OrderResponseDto;
 import makaroshyna.onlinebookstore.model.User;
 import makaroshyna.onlinebookstore.service.order.OrderService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping
+    @Operation(summary = "Get all orders",
+            description = "Get all orders of the user")
+    public List<OrderResponseDto> getAllOrders(Pageable pageable, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return orderService.getAllOrders(pageable, user);
+    }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping
