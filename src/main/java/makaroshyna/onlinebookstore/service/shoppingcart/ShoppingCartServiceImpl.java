@@ -36,7 +36,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = getShoppingCartForUser(userId);
         CartItem cartItem = cartItemService.addToCart(requestDto, shoppingCart);
         shoppingCart.getCartItems().add(cartItem);
-        shoppingCartRepository.save(shoppingCart);
 
         return cartItemMapper.toDto(cartItem);
     }
@@ -58,10 +57,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public void deleteCartItem(Long cartItemId, Long userId) {
-        ShoppingCart shoppingCart = getShoppingCart(userId);
-        cartItemService.delete(cartItemId);
-        shoppingCartRepository.save(shoppingCart);
         ShoppingCart shoppingCart = getShoppingCartForUser(userId);
+        CartItem cartItem = shoppingCart.getCartItems().stream()
+                .filter(item -> item.getId().equals(cartItemId))
+                .findAny()
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find cart item with id " + cartItemId));
+        cartItemService.delete(cartItem.getId());
     }
 
     @Override
