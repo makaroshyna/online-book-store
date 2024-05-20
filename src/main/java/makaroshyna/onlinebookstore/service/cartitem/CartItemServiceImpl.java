@@ -27,6 +27,7 @@ public class CartItemServiceImpl implements CartItemService {
         cartItem.setShoppingCart(shoppingCart);
         String title = bookService.getById(requestDto.getBookId()).getTitle();
         cartItem.getBook().setTitle(title);
+
         return cartItemRepository.save(cartItem);
     }
 
@@ -41,7 +42,7 @@ public class CartItemServiceImpl implements CartItemService {
             return cartItemRepository.save(cartItem);
         }
 
-        throw new EntityNotFoundException("CartItem with id " + id + " not found");
+        throw new EntityNotFoundException("Cannot find cart item with id " + id);
     }
 
     @Override

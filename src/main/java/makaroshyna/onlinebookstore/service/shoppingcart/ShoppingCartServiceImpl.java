@@ -68,12 +68,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(new HashSet<>());
-
     }
 
     private ShoppingCart getShoppingCart(Long userId) {
         return shoppingCartRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Cannot find shopping cart for user " + userId));
+                        "Cannot find shopping cart for user ID " + userId));
     }
 }
