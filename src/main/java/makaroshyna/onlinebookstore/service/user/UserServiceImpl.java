@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(user.getEmail());
         user.setRoles(roleService.getAllByName(USER));
         User savedUser = userRepository.save(user);
-        shoppingCartService.createShoppingCart(user);
+        shoppingCartService.createShoppingCartForUser(user);
         return userMapper.toDto(savedUser);
     }
 }

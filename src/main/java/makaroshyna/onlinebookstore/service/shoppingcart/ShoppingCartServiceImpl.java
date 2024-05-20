@@ -27,13 +27,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponseDto getByUserId(Long userId) {
-        return shoppingCartMapper.toDto(getShoppingCart(userId));
+        return shoppingCartMapper.toDto(getShoppingCartForUser(userId));
     }
 
     @Override
     @Transactional
     public CartItemResponseDto addToCart(CreateCartItemRequestDto requestDto, Long userId) {
-        ShoppingCart shoppingCart = getShoppingCart(userId);
+        ShoppingCart shoppingCart = getShoppingCartForUser(userId);
         CartItem cartItem = cartItemService.addToCart(requestDto, shoppingCart);
         shoppingCart.getCartItems().add(cartItem);
         shoppingCartRepository.save(shoppingCart);
@@ -48,7 +48,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             Long cartItemId,
             Long userId) {
 
-        ShoppingCart shoppingCart = getShoppingCart(userId);
+        ShoppingCart shoppingCart = getShoppingCartForUser(userId);
         CartItem cartItem = cartItemService.update(cartItemId, requestDto);
         shoppingCartRepository.save(shoppingCart);
 
@@ -61,17 +61,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = getShoppingCart(userId);
         cartItemService.delete(cartItemId);
         shoppingCartRepository.save(shoppingCart);
+        ShoppingCart shoppingCart = getShoppingCartForUser(userId);
     }
 
     @Override
-    public void createShoppingCart(User user) {
+    public void createShoppingCartForUser(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(new HashSet<>());
         shoppingCartRepository.save(shoppingCart);
     }
 
-    private ShoppingCart getShoppingCart(Long userId) {
+    private ShoppingCart getShoppingCartForUser(Long userId) {
         return shoppingCartRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Cannot find shopping cart for user ID " + userId));
