@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.order.CreateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.order.OrderResponseDto;
 import makaroshyna.onlinebookstore.dto.order.UpdateOrderRequestDto;
-import makaroshyna.onlinebookstore.dto.orderitem.OrderItemResponseDto;
 import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
 import makaroshyna.onlinebookstore.mapper.OrderMapper;
 import makaroshyna.onlinebookstore.model.CartItem;
@@ -63,12 +62,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = getOrderById(id);
         order.setStatus(requestDto.getStatus());
         orderRepository.save(order);
-    }
-
-    @Override
-    public List<OrderItemResponseDto> getAllOrderItems(Pageable pageable, Long id, User user) {
-        Order order = getOrderById(id);
-        return orderItemService.getAllOrderItems(order);
     }
 
     private Order getOrderById(Long id) {

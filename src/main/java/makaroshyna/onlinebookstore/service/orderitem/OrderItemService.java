@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 import makaroshyna.onlinebookstore.dto.orderitem.OrderItemResponseDto;
 import makaroshyna.onlinebookstore.model.CartItem;
-import makaroshyna.onlinebookstore.model.Order;
 import makaroshyna.onlinebookstore.model.OrderItem;
 
 public interface OrderItemService {
@@ -12,5 +11,7 @@ public interface OrderItemService {
 
     void saveOrderItems(Set<OrderItem> orderItem);
 
-    List<OrderItemResponseDto> getAllOrderItems(Order order);
+    List<OrderItemResponseDto> getAllOrderItems(Long orderId);
+
+    OrderItemResponseDto getOrderItem(Long orderId, Long itemId);
 }

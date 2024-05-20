@@ -11,6 +11,7 @@ import makaroshyna.onlinebookstore.mapper.OrderItemMapper;
 import makaroshyna.onlinebookstore.model.CartItem;
 import makaroshyna.onlinebookstore.model.Order;
 import makaroshyna.onlinebookstore.model.OrderItem;
+import makaroshyna.onlinebookstore.repository.order.OrderRepository;
 import makaroshyna.onlinebookstore.repository.orderitem.OrderItemRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class OrderItemServiceImpl implements OrderItemService {
     private final OrderItemMapper orderItemMapper;
     private final OrderItemRepository orderItemRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     @Transactional
@@ -35,17 +37,30 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    @Transactional
-    public List<OrderItemResponseDto> getAllOrderItems(Order order) {
-        List<OrderItem> orderItems = orderItemRepository.findByOrder(order);
-
+    public List<OrderItemResponseDto> getAllOrderItems(Long orderId) {
+        List<OrderItem> orderItems = orderItemRepository.findByOrderId(orderId);
         if (orderItems.isEmpty()) {
             throw new EntityNotFoundException("No order items found for order with id "
-                                              + order.getId());
+                                              + orderId);
         }
 
         return orderItems.stream()
                 .map(orderItemMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public OrderItemResponseDto getOrderItem(Long orderId, Long itemId) {
+        OrderItem orderItem = orderItemRepository
+                .findByIdAndOrderId(itemId, orderId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Can't find order item with id " + itemId));
+
+        return orderItemMapper.toDto(orderItem);
+    }
+
+    private Order getOrder(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow(() ->
+                new EntityNotFoundException("Can't find order with id: " + orderId));
     }
 }

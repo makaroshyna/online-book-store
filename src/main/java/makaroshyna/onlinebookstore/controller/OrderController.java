@@ -11,6 +11,7 @@ import makaroshyna.onlinebookstore.dto.order.UpdateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.orderitem.OrderItemResponseDto;
 import makaroshyna.onlinebookstore.model.User;
 import makaroshyna.onlinebookstore.service.order.OrderService;
+import makaroshyna.onlinebookstore.service.orderitem.OrderItemService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderItemService orderItemService;
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping
@@ -42,12 +44,19 @@ public class OrderController {
     @GetMapping("/{orderId}/items")
     @Operation(summary = "Get all order items for an order",
             description = "Get all order items by order ID")
-    public List<OrderItemResponseDto> getOrderItems(
-            Pageable pageable,
+    public List<OrderItemResponseDto> getOrderItems(@PathVariable Long orderId) {
+        return orderItemService.getAllOrderItems(orderId);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/{orderId}/items/{itemId}")
+    @Operation(summary = "Get order item by ID",
+            description = "Get order item by order ID and item ID")
+    public OrderItemResponseDto getOrderItem(
             @PathVariable Long orderId,
-            Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return orderService.getAllOrderItems(pageable, orderId, user);
+            @PathVariable Long itemId) {
+
+        return orderItemService.getOrderItem(orderId, itemId);
     }
 
     @PreAuthorize("hasRole('USER')")
