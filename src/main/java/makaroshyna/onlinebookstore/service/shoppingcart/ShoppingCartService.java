@@ -7,11 +7,13 @@ import makaroshyna.onlinebookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import makaroshyna.onlinebookstore.model.User;
 
 public interface ShoppingCartService {
-    ShoppingCartResponseDto getByUserId(User user);
+    ShoppingCartResponseDto getByUserId(Long userId);
 
-    CartItemResponseDto addToCart(CreateCartItemRequestDto requestDto, User user);
+    CartItemResponseDto addToCart(CreateCartItemRequestDto requestDto, Long userId);
 
-    CartItemResponseDto updateCart(UpdateCartItemRequestDto requestDto, Long cartItemId, User user);
+    CartItemResponseDto updateCart(UpdateCartItemRequestDto requestDto, Long cartItemId, Long userId);
 
-    void deleteCartItem(Long cartItemId, User user);
+    void deleteCartItem(Long cartItemId, Long userId);
+
+    void createShoppingCart(User user);
 }

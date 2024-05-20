@@ -41,7 +41,7 @@ public class CartItemServiceImpl implements CartItemService {
             return cartItemRepository.save(cartItem);
         }
 
-        throw new EntityNotFoundException("CartItem with id '%s' not found" + id);
+        throw new EntityNotFoundException("CartItem with id " + id + " not found");
     }
 
     @Override

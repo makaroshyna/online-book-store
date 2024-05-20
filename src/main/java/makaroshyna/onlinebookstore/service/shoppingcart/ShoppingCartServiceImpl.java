@@ -26,14 +26,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemService cartItemService;
 
     @Override
-    public ShoppingCartResponseDto getByUserId(User user) {
-        return shoppingCartMapper.toDto(findOrCreateShoppingCart(user));
+    public ShoppingCartResponseDto getByUserId(Long userId) {
+        return shoppingCartMapper.toDto(getShoppingCart(userId));
     }
 
     @Override
     @Transactional
-    public CartItemResponseDto addToCart(CreateCartItemRequestDto requestDto, User user) {
-        ShoppingCart shoppingCart = findOrCreateShoppingCart(user);
+    public CartItemResponseDto addToCart(CreateCartItemRequestDto requestDto, Long userId) {
+        ShoppingCart shoppingCart = getShoppingCart(userId);
         CartItem cartItem = cartItemService.save(requestDto, shoppingCart);
         shoppingCart.getCartItems().add(cartItem);
         shoppingCartRepository.save(shoppingCart);
@@ -46,9 +46,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public CartItemResponseDto updateCart(
             UpdateCartItemRequestDto requestDto,
             Long cartItemId,
-            User user) {
+            Long userId) {
 
-        ShoppingCart shoppingCart = getShoppingCart(user.getId());
+        ShoppingCart shoppingCart = getShoppingCart(userId);
         CartItem cartItem = cartItemService.update(cartItemId, requestDto);
         shoppingCartRepository.save(shoppingCart);
 
@@ -57,28 +57,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     @Transactional
-    public void deleteCartItem(Long cartItemId, User user) {
-        ShoppingCart shoppingCart = getShoppingCart(user.getId());
+    public void deleteCartItem(Long cartItemId, Long userId) {
+        ShoppingCart shoppingCart = getShoppingCart(userId);
         cartItemService.delete(cartItemId);
         shoppingCartRepository.save(shoppingCart);
     }
 
-    private ShoppingCart findOrCreateShoppingCart(User user) {
-        return shoppingCartRepository.findByUserId(user.getId())
-                .orElseGet(() -> shoppingCartRepository.save(createShoppingCart(user)));
+    @Override
+    public void createShoppingCart(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCart.setCartItems(new HashSet<>());
+
     }
 
     private ShoppingCart getShoppingCart(Long userId) {
         return shoppingCartRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Cannot find shopping cart for user " + userId));
-    }
-
-    private ShoppingCart createShoppingCart(User user) {
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
-        shoppingCart.setCartItems(new HashSet<>());
-
-        return shoppingCart;
     }
 }
