@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.order.CreateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.order.OrderResponseDto;
 import makaroshyna.onlinebookstore.dto.order.UpdateOrderRequestDto;
+import makaroshyna.onlinebookstore.dto.orderitem.OrderItemResponseDto;
 import makaroshyna.onlinebookstore.model.User;
 import makaroshyna.onlinebookstore.service.order.OrderService;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,18 @@ public class OrderController {
     public List<OrderResponseDto> getAllOrders(Pageable pageable, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return orderService.getAllOrders(pageable, user);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/{orderId}/items")
+    @Operation(summary = "Get all order items for an order",
+            description = "Get all order items by order ID")
+    public List<OrderItemResponseDto> getOrderItems(
+            Pageable pageable,
+            @PathVariable Long orderId,
+            Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return orderService.getAllOrderItems(pageable, orderId, user);
     }
 
     @PreAuthorize("hasRole('USER')")

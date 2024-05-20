@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import makaroshyna.onlinebookstore.dto.order.CreateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.order.OrderResponseDto;
 import makaroshyna.onlinebookstore.dto.order.UpdateOrderRequestDto;
+import makaroshyna.onlinebookstore.dto.orderitem.OrderItemResponseDto;
 import makaroshyna.onlinebookstore.exception.EntityNotFoundException;
 import makaroshyna.onlinebookstore.mapper.OrderMapper;
 import makaroshyna.onlinebookstore.model.CartItem;
@@ -38,12 +39,14 @@ public class OrderServiceImpl implements OrderService {
         if (cartItems.isEmpty()) {
             throw new EntityNotFoundException("Can't find cart items for user " + user.getId());
         }
+
         shoppingCartRepository.deleteById(shoppingCart.getId());
         Order order = orderMapper.toModel(requestDto, user,
                 orderItemService.toOrderItem(cartItems));
 
         Order savedOrder = orderRepository.save(order);
         orderItemService.saveOrderItems(savedOrder.getOrderItems());
+
         return orderMapper.toDto(savedOrder);
     }
 
@@ -57,10 +60,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(UpdateOrderRequestDto requestDto, Long id) {
-        Order order = orderRepository
-                .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can't find order with id " + id));
+        Order order = getOrderById(id);
         order.setStatus(requestDto.getStatus());
         orderRepository.save(order);
+    }
+
+    @Override
+    public List<OrderItemResponseDto> getAllOrderItems(Pageable pageable, Long id, User user) {
+        Order order = getOrderById(id);
+        return orderItemService.getAllOrderItems(order);
+    }
+
+    private Order getOrderById(Long id) {
+        return orderRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find order with id " + id));
     }
 }

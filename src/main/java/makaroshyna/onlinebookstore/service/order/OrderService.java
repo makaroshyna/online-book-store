@@ -4,6 +4,7 @@ import java.util.List;
 import makaroshyna.onlinebookstore.dto.order.CreateOrderRequestDto;
 import makaroshyna.onlinebookstore.dto.order.OrderResponseDto;
 import makaroshyna.onlinebookstore.dto.order.UpdateOrderRequestDto;
+import makaroshyna.onlinebookstore.dto.orderitem.OrderItemResponseDto;
 import makaroshyna.onlinebookstore.model.User;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +14,6 @@ public interface OrderService {
     List<OrderResponseDto> getAllOrders(Pageable pageable, User user);
 
     void updateOrder(UpdateOrderRequestDto requestDto, Long id);
+
+    List<OrderItemResponseDto> getAllOrderItems(Pageable pageable, Long id, User user);
 }
