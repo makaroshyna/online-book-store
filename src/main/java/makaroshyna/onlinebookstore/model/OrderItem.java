@@ -28,7 +28,7 @@ public class OrderItem {
     private Order order;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @Column(nullable = false)
