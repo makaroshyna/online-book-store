@@ -68,6 +68,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCart.setCartItems(new HashSet<>());
+        shoppingCartRepository.save(shoppingCart);
     }
 
     private ShoppingCart getShoppingCart(Long userId) {
