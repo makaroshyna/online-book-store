@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     @Operation(summary = "Get a shopping cart of a user",
             description = "Get a shopping cart of authenticated user")
@@ -39,7 +39,7 @@ public class ShoppingCartController {
         return shoppingCartService.getByUserId(user.getId());
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping
     @Operation(summary = "Add a book to the shopping cart",
             description = "Add a book to the shopping cart of the user")
@@ -51,7 +51,7 @@ public class ShoppingCartController {
         return shoppingCartService.addToCart(requestDto, user.getId());
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/cart-items/{cartItemId}")
     @Operation(summary = "Update a book by cart item id",
             description = "Update a books quantity by cart item ID")
@@ -64,7 +64,7 @@ public class ShoppingCartController {
         return shoppingCartService.updateCart(requestDto, cartItemId, user.getId());
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/cart-items/{cartItemId}")
     public void deleteCartItem(@PathVariable Long cartItemId, Authentication authentication) {

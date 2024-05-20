@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     @Operation(summary = "Get all categories",
             description = "Get a list of all available categories")
@@ -37,7 +37,7 @@ public class CategoryController {
         return categoryService.findAll(pageable);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get a category by ID",
             description = "Get a category by ID, if there is one")
@@ -45,7 +45,7 @@ public class CategoryController {
         return categoryService.getById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}/books")
     @Operation(summary = "Get books by category ID",
             description = "Get books by category ID, if there is one")
@@ -56,7 +56,7 @@ public class CategoryController {
         return categoryService.getBooksByCategoryId(id, pageable);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Operation(summary = "Create a new category",
             description = "Create a new category with generated ID")
@@ -66,7 +66,7 @@ public class CategoryController {
         return categoryService.save(requestDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update a category by ID",
             description = "Get and update a category by ID, if there is one")
@@ -77,7 +77,7 @@ public class CategoryController {
         return categoryService.updateById(id, requestDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a category by ID",
