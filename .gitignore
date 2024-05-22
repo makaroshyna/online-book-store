@@ -34,3 +34,6 @@ build/
 
 ### Credentials ###
 /src/main/resources/project_credentials
+
+### Docker ###
+/.env
