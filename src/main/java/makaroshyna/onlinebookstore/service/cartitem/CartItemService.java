@@ -6,7 +6,7 @@ import makaroshyna.onlinebookstore.model.CartItem;
 import makaroshyna.onlinebookstore.model.ShoppingCart;
 
 public interface CartItemService {
-    CartItem save(CreateCartItemRequestDto requestDto, ShoppingCart shoppingCart);
+    CartItem addToCart(CreateCartItemRequestDto requestDto, ShoppingCart shoppingCart);
 
     CartItem update(Long id, UpdateCartItemRequestDto requestDto);
 
