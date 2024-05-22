@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     @Operation(summary = "Get all books",
             description = "Get a list of all available books")
@@ -37,7 +37,7 @@ public class BookController {
         return bookService.getAll(pageable);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get a book by ID",
             description = "Get a book by ID, if there is one")
@@ -45,7 +45,7 @@ public class BookController {
         return bookService.getById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/search")
     @Operation(summary = "Get a list of books by search parameters",
             description = "Get a list of books by search parameters title, author and ISBN")
@@ -53,7 +53,7 @@ public class BookController {
         return bookService.search(searchParameters, pageable);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Operation(summary = "Create a new book",
             description = "Create a new book with generated ID")
@@ -61,7 +61,7 @@ public class BookController {
         return bookService.save(requestDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update a book by ID",
             description = "Get and update a book by ID, if there is one")
@@ -70,7 +70,7 @@ public class BookController {
         return bookService.updateById(id, requestDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a book by ID",
