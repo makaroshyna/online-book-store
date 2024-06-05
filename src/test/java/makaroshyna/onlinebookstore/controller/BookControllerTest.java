@@ -216,7 +216,7 @@ class BookControllerTest {
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         mockMvc.perform(put(BOOKS_URL + "/-1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -230,11 +230,11 @@ class BookControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = {"ADMIN"})
     public void deleteBookById_GivenInvalidId_NoContentStatus() throws Exception {
         mockMvc.perform(put(BOOKS_URL + "/-1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isBadRequest());
     }
 
     @SneakyThrows
