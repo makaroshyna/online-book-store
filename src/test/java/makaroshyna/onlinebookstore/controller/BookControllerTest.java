@@ -206,12 +206,35 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
+    public void updateBookById_GivenInvalidId_Throws() throws Exception {
+        CreateBookRequestDto requestDto = new CreateBookRequestDto();
+        requestDto.setTitle("Hobbit");
+        requestDto.setAuthor("J. R. R. Tolkien");
+        requestDto.setIsbn("9780007525508");
+        requestDto.setPrice(BigDecimal.valueOf(280.85));
+
+        String jsonRequest = objectMapper.writeValueAsString(requestDto);
+        mockMvc.perform(put(BOOKS_URL + "/-1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Delete existing book")
     public void deleteBookById_GivenValidId_NoContentStatus() throws Exception {
         mockMvc.perform(delete(BOOKS_URL + "/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andReturn();
+    }
+
+    @Test
+    @WithMockUser
+    public void deleteBookById_GivenInvalidId_NoContentStatus() throws Exception {
+        mockMvc.perform(put(BOOKS_URL + "/-1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
     }
 
     @SneakyThrows
