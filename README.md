@@ -5,6 +5,7 @@ Page Glide was created to empower developers with a well-structured and efficien
 for their online bookstore applications.
 
 ## 🚀 Introduction
+
 Page Glide is a backend API built with Spring Boot for rapid development. 
 It leverages Spring Security for secure user authentication and authorization. 
 Spring Data JPA provides seamless interaction with a MySQL database for data persistence. 
@@ -103,7 +104,7 @@ Your server will be accessible at `http://localhost:8080`.
 ## 🤖 Installation with Docker
 
 <details>
-<summary>Click for detailed instruction</summary>
+<summary>Click for detailed instructions</summary>
   
   ### 1. Prerequisites
 
