@@ -34,17 +34,12 @@ Docker enables easy containerization for deployment.
 * **Testcontainers**: in-memory database for integration testing
 
 
-## Installation
+## Installation without Docker
 
 ### 1. Prerequisites
-
-**Installation without Docker:**
 * Java 21+
 * Maven 4+
 * MySQL 8+
-
-**Installation with Docker:**
-* Docker
 
 ### 2. Clone the repository
 ```bash
@@ -52,14 +47,10 @@ git clone https://github.com/makaroshyna/online-book-store.git
 cd online-book-store
 ```
 
-## Running the project
-
-**Without Docker**
-
-### 1. Set up MySQL
+### 3. Set up MySQL
 Establish a new MySQL database, recording its URL, username, and password for future reference.
 
-### 2. Configure environment variables
+### 4. Configure environment variables
 Create a file names `application.properties` in `src/main/resources` with the following context
 (replace placeholders with your details):
 ```properties
@@ -74,22 +65,31 @@ jwt.expiration=token_expiration_time
 jwt.secret=your_secret_key
 ```
 
-### 3. Get set up
+### 5. Get set up
 Run the following command to install any required dependencies and build your project:
 ```bash
 mvn clean install
 ```
 
-### 4. Start the server
+### 6. Start the server
 Once the build is complete, use this command to run your application:
 ```bash
 mvn spring-boot:run
 ```
 Your server will be accessible at `http://localhost:8080`.
 
-**With Docker**
+## Installation without Docker
 
-### 1. Configure environment variables
+### 1. Prerequisites
+* Docker
+
+### 2. Clone the repository
+```bash
+git clone https://github.com/makaroshyna/online-book-store.git
+cd online-book-store
+```
+
+### 3. Configure environment variables
 Create an .env file in the project root directory and add the following:
 ```env
 MYSQLDB_DATABASE=your_db_name
@@ -105,12 +105,12 @@ SPRING_DOCKER_PORT=8080
 DEBUG_PORT=5005
 ```
 
-### 2. Install dependencies and build the project
+### 4. Install dependencies and build the project
 ```bash
 mvn clean install
 ```
 
-### 3. Build and run the Docker containers
+### 5. Build and run the Docker containers
 ```bash
 docker compose up
 ```
@@ -124,10 +124,17 @@ Page Glide utilizes Mockito for mocking dependencies and
 JUnit for unit testing the application logic. 
 This ensures code reliability and maintainability.
 
+## Visual Overview
+[![Watch on Loom](https://img.shields.io/badge/Watch%20on-Loom-00a4d9)](https://www.loom.com/share/9b03d680b8c44b43ab8eea68902c8650)
+
+
+
 ## Functionality
 * After running the app, open your browser and go to 
 `http://localhost:8080/api/swagger-ui.html` 
 to access the Swagger API documentation.
+* Or run it via Postman collection 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/descent-module-geologist-90185526/workspace/page-glide/collection/34368037-138c5745-cf6b-4e23-8e19-2e6d217e7d4d?action=share&creator=34368037)
 * To access endpoints with required ADMIN role, you can use the next credentials:
 ```json
 {
