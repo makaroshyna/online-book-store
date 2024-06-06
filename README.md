@@ -33,6 +33,17 @@ Docker enables easy containerization for deployment.
 * **JUnit**: testing and reliability
 * **Testcontainers**: in-memory database for integration testing
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Key features](#key-features)
+- [Technologies](#technologies)
+- [Installation without Docker](#installation-without-docker)
+- [Installation with Docker](#installation-with-docker)
+- [Testing](#testing)
+- [Visual Overview](#visual-overview)
+- [Functionality](#functionality)
+- [Author](#author)
 
 ## Installation without Docker
 
