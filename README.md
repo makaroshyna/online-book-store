@@ -51,24 +51,24 @@ Docker enables easy containerization for deployment.
 <details>
 <summary>Click for detailed instructions</summary>
 
-  ### 1. Prerequisites
+### 1. Prerequisites
 
 * Java 21+
 * Maven 4+
 * MySQL 8+
 
-  ### 2. Clone the repository
+### 2. Clone the repository
 
 ```bash
 git clone https://github.com/makaroshyna/online-book-store.git
 cd online-book-store
 ```
 
-  ### 3. Set up MySQL
+### 3. Set up MySQL
 
 Establish a new MySQL database, recording its URL, username, and password for future reference.
 
-  ### 4. Configure environment variables
+### 4. Configure environment variables
 
 Create a file names `application.properties` in `src/main/resources` with the following context
 (replace placeholders with your details):
@@ -84,14 +84,14 @@ jwt.expiration=token_expiration_time
 jwt.secret=your_secret_key
 ```
 
-  ### 5. Get set up
+### 5. Get set up
 
 Run the following command to install any required dependencies and build your project:
 ```bash
 mvn clean install
 ```
 
-  ### 6. Start the server
+### 6. Start the server
 
 Once the build is complete, use this command to run your application:
 ```bash
@@ -106,18 +106,18 @@ Your server will be accessible at `http://localhost:8080`.
 <details>
 <summary>Click for detailed instructions</summary>
   
-  ### 1. Prerequisites
+### 1. Prerequisites
 
 * Docker
 
-  ### 2. Clone the repository
+### 2. Clone the repository
 
 ```bash
 git clone https://github.com/makaroshyna/online-book-store.git
 cd online-book-store
 ```
 
-  ### 3. Configure environment variables
+### 3. Configure environment variables
 
 Create an .env file in the project root directory and add the following:
 ```env
@@ -134,13 +134,13 @@ SPRING_DOCKER_PORT=8080
 DEBUG_PORT=5005
 ```
 
-  ### 4. Install dependencies and build the project
+### 4. Install dependencies and build the project
 
 ```bash
 mvn clean install
 ```
 
-  ### 5. Build and run the Docker containers
+### 5. Build and run the Docker containers
 
 ```bash
 docker compose up
