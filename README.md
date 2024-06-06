@@ -78,7 +78,7 @@ mvn spring-boot:run
 ```
 Your server will be accessible at `http://localhost:8080`.
 
-## Installation without Docker
+## Installation with Docker
 
 ### 1. Prerequisites
 * Docker
@@ -127,13 +127,11 @@ This ensures code reliability and maintainability.
 ## Visual Overview
 [![Watch on Loom](https://img.shields.io/badge/Watch%20on-Loom-00a4d9)](https://www.loom.com/share/9b03d680b8c44b43ab8eea68902c8650)
 
-
-
 ## Functionality
 * After running the app, open your browser and go to 
 `http://localhost:8080/api/swagger-ui.html` 
 to access the Swagger API documentation.
-* Or run it via Postman collection 
+* Or visit a Postman collection 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/descent-module-geologist-90185526/workspace/page-glide/collection/34368037-138c5745-cf6b-4e23-8e19-2e6d217e7d4d?action=share&creator=34368037)
 * To access endpoints with required ADMIN role, you can use the next credentials:
 ```json
