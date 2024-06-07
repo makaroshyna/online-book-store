@@ -35,33 +35,35 @@ class BookServiceImplTest {
     private BookMapper bookMapper;
     @Mock
     private BookSpecificationBuilder bookSpecificationBuilder;
-
     private BookService bookService;
+    private CreateBookRequestDto requestDto;
+    private Book book;
+    private BookDto responseDto;
 
     @BeforeEach
     void setUp() {
         bookService = new BookServiceImpl(bookRepository, bookMapper, bookSpecificationBuilder);
+
+        requestDto = new CreateBookRequestDto();
+        requestDto.setTitle("Test Title");
+
+        book = new Book();
+        book.setId(1L);
+        book.setTitle("Test Title");
+
+        responseDto = new BookDto();
+        responseDto.setId(1L);
+        responseDto.setTitle("Test Title");
     }
 
     @Test
     @DisplayName("Verify save() method works")
     public void save_ValidCreateBookRequestDto_ReturnsBookDto() {
-        CreateBookRequestDto requestDto = new CreateBookRequestDto();
-        requestDto.setTitle("Test Title");
-
-        Book book = new Book();
-        book.setTitle("Test Title");
-
-        BookDto bookDto = new BookDto();
-        bookDto.setTitle("Test Title");
-        bookDto.setCategoryIds(Set.of());
-
         when(bookMapper.toModel(requestDto)).thenReturn(book);
         when(bookRepository.save(book)).thenReturn(book);
-        when(bookMapper.toDto(book)).thenReturn(bookDto);
+        when(bookMapper.toDto(book)).thenReturn(responseDto);
 
         BookDto result = bookService.save(requestDto);
-
         assertNotNull(result);
         assertEquals(result.getTitle(), requestDto.getTitle());
     }
@@ -71,9 +73,7 @@ class BookServiceImplTest {
     public void getAll_ValidPageable_ReturnsBookDto() {
         when(bookRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(new Book())));
-        BookDto bookDto = new BookDto();
-        bookDto.setTitle("Test Title");
-        when(bookMapper.toDto(any())).thenReturn(bookDto);
+        when(bookMapper.toDto(any())).thenReturn(responseDto);
 
         List<BookDto> result = bookService.getAll(Pageable.unpaged());
         assertNotNull(result);
@@ -83,45 +83,24 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Verify getById() method works")
     public void getById_ValidId_ReturnsBookDto() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("Test Title");
-
-        BookDto bookDto = new BookDto();
-        bookDto.setId(1L);
-        bookDto.setTitle("Test Title");
-
         when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-        when(bookMapper.toDto(book)).thenReturn(bookDto);
+        when(bookMapper.toDto(book)).thenReturn(responseDto);
 
         BookDto result = bookService.getById(1L);
         assertNotNull(result);
-        assertEquals(result.getTitle(), bookDto.getTitle());
+        assertEquals(result.getTitle(), responseDto.getTitle());
     }
 
     @Test
     @DisplayName("Verify updateById() method works")
     public void updateById_ValidData_ReturnsBookDto() {
         when(bookRepository.existsById(1L)).thenReturn(true);
-
-        CreateBookRequestDto requestDto = new CreateBookRequestDto();
-        requestDto.setTitle("Test Title");
-
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("Test Title");
-
         when(bookMapper.toModel(requestDto)).thenReturn(book);
-
-        BookDto bookDto = new BookDto();
-        bookDto.setId(1L);
-        bookDto.setTitle("Test Title");
-
-        when(bookMapper.toDto(any())).thenReturn(bookDto);
+        when(bookMapper.toDto(any())).thenReturn(responseDto);
 
         BookDto result = bookService.updateById(1L, requestDto);
         assertNotNull(result);
-        assertEquals(result.getTitle(), bookDto.getTitle());
+        assertEquals(result.getTitle(), responseDto.getTitle());
     }
 
     @Test
