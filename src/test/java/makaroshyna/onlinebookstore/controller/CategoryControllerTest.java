@@ -45,6 +45,12 @@ class CategoryControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    private CreateCategoryRequestDto requestDto;
+    private BookDtoWithoutCategoryIds fellowship;
+    private BookDtoWithoutCategoryIds towers;
+    private CategoryResponseDto fantasy;
+    private CategoryResponseDto novel;
+    private CategoryResponseDto detective;
 
     @BeforeAll
     static void beforeAll(
@@ -61,6 +67,37 @@ class CategoryControllerTest {
     @BeforeEach
     void setUp(@Autowired DataSource dataSource) {
         addThreeCategories(dataSource);
+
+        fantasy = new CategoryResponseDto(
+                1L,
+                "Fantasy",
+                "Fantasy Description");
+        novel = new CategoryResponseDto(
+                2L,
+                "Romance novel",
+                "Romance novel Description");
+        detective = new CategoryResponseDto(
+                3L,
+                "Detective",
+                "Detective Description");
+
+        requestDto = new CreateCategoryRequestDto();
+        requestDto.setName("Mystery");
+        requestDto.setDescription("Mystery description");
+
+        fellowship = new BookDtoWithoutCategoryIds();
+        fellowship.setId(1L);
+        fellowship.setAuthor("J. R. R. Tolkien");
+        fellowship.setTitle("The Fellowship of the Ring");
+        fellowship.setIsbn("9780007136599");
+        fellowship.setPrice(BigDecimal.valueOf(520.55));
+
+        towers = new BookDtoWithoutCategoryIds();
+        towers.setId(2L);
+        towers.setAuthor("J. R. R. Tolkien");
+        towers.setTitle("The Two Towers");
+        towers.setIsbn("9780007136568");
+        towers.setPrice(BigDecimal.valueOf(490.95));
     }
 
     @AfterEach
@@ -73,9 +110,9 @@ class CategoryControllerTest {
     @DisplayName("Retrieve all categories")
     public void getAll_GivenCategories_ReturnsAllCategories() throws Exception {
         List<CategoryResponseDto> expected = new ArrayList<>();
-        expected.add(new CategoryResponseDto(1L, "Fantasy", "Fantasy Description"));
-        expected.add(new CategoryResponseDto(2L, "Romance novel", "Romance novel Description"));
-        expected.add(new CategoryResponseDto(3L, "Detective", "Detective Description"));
+        expected.add(fantasy);
+        expected.add(novel);
+        expected.add(detective);
 
         MvcResult result = mockMvc.perform(get(CATEGORIES_URL)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -94,11 +131,6 @@ class CategoryControllerTest {
     @WithMockUser
     @DisplayName("Retrieve a category by valid ID")
     public void getCategoryById_GivenId_ReturnsCategory() throws Exception {
-        CategoryResponseDto expected = new CategoryResponseDto(
-                1L,
-                "Fantasy",
-                "Fantasy Description");
-
         MvcResult result = mockMvc.perform(get(CATEGORIES_URL + "/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -109,7 +141,7 @@ class CategoryControllerTest {
                 CategoryResponseDto.class);
 
         assertNotNull(actual);
-        assertEquals(expected, actual);
+        assertEquals(fantasy, actual);
     }
 
     @Test
@@ -119,20 +151,6 @@ class CategoryControllerTest {
             @Autowired DataSource dataSource) throws Exception {
 
         addThreeBooksAndCategories(dataSource);
-
-        BookDtoWithoutCategoryIds fellowship = new BookDtoWithoutCategoryIds();
-        fellowship.setId(1L);
-        fellowship.setAuthor("J. R. R. Tolkien");
-        fellowship.setTitle("The Fellowship of the Ring");
-        fellowship.setIsbn("9780007136599");
-        fellowship.setPrice(BigDecimal.valueOf(520.55));
-
-        BookDtoWithoutCategoryIds towers = new BookDtoWithoutCategoryIds();
-        towers.setId(2L);
-        towers.setAuthor("J. R. R. Tolkien");
-        towers.setTitle("The Two Towers");
-        towers.setIsbn("9780007136568");
-        towers.setPrice(BigDecimal.valueOf(490.95));
 
         List<BookDtoWithoutCategoryIds> expected = List.of(fellowship, towers);
         MvcResult result = mockMvc.perform(get(CATEGORIES_URL + "/1/books")
@@ -152,10 +170,6 @@ class CategoryControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Create a new category with valid data")
     public void createCategory_ValidCategory_ReturnsCategory() throws Exception {
-        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto();
-        requestDto.setName("Test Category");
-        requestDto.setDescription("Test Description");
-
         CategoryResponseDto expected = new CategoryResponseDto(
                 1L,
                 requestDto.getName(),
@@ -179,10 +193,6 @@ class CategoryControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Update a category with valid ID")
     public void updateCategoryById_ValidId_ReturnsCategory() throws Exception {
-        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto();
-        requestDto.setName("Updated Category");
-        requestDto.setDescription("Updated Description");
-
         CategoryResponseDto expected = new CategoryResponseDto(
                 1L,
                 requestDto.getName(),
@@ -205,12 +215,32 @@ class CategoryControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
+    @DisplayName("Get bad request status when updating category with non-existing ID")
+    public void updateBookById_GivenInvalidId_BadRequestStatus() throws Exception {
+        String jsonRequest = objectMapper.writeValueAsString(requestDto);
+        mockMvc.perform(put(CATEGORIES_URL + "/100")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Delete existing category")
     public void deleteCategoryById_GivenId_NoContentStatus() throws Exception {
         mockMvc.perform(delete(CATEGORIES_URL + "/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andReturn();
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
+    @DisplayName("Get bad request status when deleting category with non-existing ID")
+    public void deleteBookById_GivenInvalidId_BadRequestStatus() throws Exception {
+        mockMvc.perform(put(CATEGORIES_URL + "/100")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @SneakyThrows

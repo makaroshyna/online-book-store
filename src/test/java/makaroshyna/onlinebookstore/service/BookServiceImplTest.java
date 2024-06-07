@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import makaroshyna.onlinebookstore.dto.book.BookDto;
 import makaroshyna.onlinebookstore.dto.book.CreateBookRequestDto;
 import makaroshyna.onlinebookstore.mapper.BookMapper;

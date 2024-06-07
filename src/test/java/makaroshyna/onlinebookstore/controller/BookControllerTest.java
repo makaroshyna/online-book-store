@@ -196,9 +196,10 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
+    @DisplayName("Get bad request status when updating book with non-existing ID")
     public void updateBookById_GivenInvalidId_BadRequestStatus() throws Exception {
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
-        mockMvc.perform(put(BOOKS_URL + "/-1")
+        mockMvc.perform(put(BOOKS_URL + "/100")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -216,8 +217,9 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
+    @DisplayName("Get bad request status when deleting book with non-existing ID")
     public void deleteBookById_GivenInvalidId_BadRequestStatus() throws Exception {
-        mockMvc.perform(put(BOOKS_URL + "/-1")
+        mockMvc.perform(put(BOOKS_URL + "/100")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
