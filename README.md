@@ -134,16 +134,10 @@ SPRING_DOCKER_PORT=8080
 DEBUG_PORT=5005
 ```
 
-### 4. Install dependencies and build the project
+### 4. Build and run the Docker containers
 
 ```bash
-mvn clean install
-```
-
-### 5. Build and run the Docker containers
-
-```bash
-docker compose up
+docker compose up --build
 ```
 </details>
 
