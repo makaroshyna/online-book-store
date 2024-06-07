@@ -33,37 +33,40 @@ public class CategoryServiceImplTest {
     private CategoryMapper categoryMapper;
     @Mock
     private BookService bookService;
-
     private CategoryServiceImpl categoryService;
+    private CategoryResponseDto responseDto;
+    private CreateCategoryRequestDto requestDto;
+    private Category category;
 
     @BeforeEach
     void setUp() {
         categoryService = new CategoryServiceImpl(categoryRepository, categoryMapper, bookService);
+
+        requestDto = new CreateCategoryRequestDto();
+        requestDto.setName("Test category");
+        requestDto.setDescription("Test description");
+
+        category = new Category();
+        category.setId(1L);
+        category.setName("Test category");
+        category.setDescription("Test description");
+
+        responseDto = new CategoryResponseDto(
+                1L,
+                "Test category",
+                "Test description");
     }
 
     @Test
     @DisplayName("Verify save() method works")
     public void save_ValidCreateCategoryRequestDto_ReturnsCategoryResponseDto() {
-        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto();
-        requestDto.setName("Test category");
-        requestDto.setDescription("Test description");
-
-        Category category = new Category();
-        category.setName(requestDto.getName());
-        category.setDescription(requestDto.getDescription());
-
-        CategoryResponseDto expected = new CategoryResponseDto(
-                1L,
-                "Test category",
-                "Test description");
-
         when(categoryMapper.toModel(requestDto)).thenReturn(category);
         when(categoryRepository.save(category)).thenReturn(category);
-        when(categoryMapper.toDto(category)).thenReturn(expected);
+        when(categoryMapper.toDto(category)).thenReturn(responseDto);
 
         CategoryResponseDto actual = categoryService.save(requestDto);
         assertNotNull(actual);
-        assertEquals(expected, actual);
+        assertEquals(responseDto, actual);
     }
 
     @Test
@@ -71,11 +74,7 @@ public class CategoryServiceImplTest {
     public void findAll_ValidPageable_ReturnsAllCategories() {
         when(categoryRepository.findAll(any(Pageable.class)))
                 .thenReturn(new PageImpl<>(List.of(new Category())));
-        CategoryResponseDto categoryDto = new CategoryResponseDto(
-                1L,
-                "Test category",
-                "Test description");
-        when(categoryMapper.toDtoList(any())).thenReturn(List.of(categoryDto));
+        when(categoryMapper.toDtoList(any())).thenReturn(List.of(responseDto));
 
         List<CategoryResponseDto> actual = categoryService.findAll(Pageable.unpaged());
         assertNotNull(actual);
@@ -85,43 +84,19 @@ public class CategoryServiceImplTest {
     @Test
     @DisplayName("Verify getById() method works")
     public void getById_ValidId_ReturnsCategoryResponseDto() {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Test category");
-        category.setDescription("Test description");
-
-        CategoryResponseDto categoryResponseDto = new CategoryResponseDto(
-                1L,
-                "Test category",
-                "Test description");
-
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
-        when(categoryMapper.toDto(category)).thenReturn(categoryResponseDto);
+        when(categoryMapper.toDto(category)).thenReturn(responseDto);
 
         CategoryResponseDto actual = categoryService.getById(1L);
         assertNotNull(actual);
-        assertEquals(categoryResponseDto, actual);
+        assertEquals(responseDto, actual);
     }
 
     @Test
     @DisplayName("Verity updateById() method words")
     public void updateById_ValidId_ReturnsCategoryResponseDto() {
         when(categoryRepository.existsById(1L)).thenReturn(true);
-
-        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto();
-        requestDto.setName("Test category");
-
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Test category");
-
         when(categoryMapper.toModel(requestDto)).thenReturn(category);
-
-        CategoryResponseDto responseDto = new CategoryResponseDto(
-                1L,
-                "Test category",
-                "Test description");
-
         when(categoryMapper.toDto(any())).thenReturn(responseDto);
 
         CategoryResponseDto actual = categoryService.updateById(1L, requestDto);
