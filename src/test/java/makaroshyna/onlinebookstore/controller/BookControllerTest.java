@@ -45,6 +45,10 @@ class BookControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    private BookDto fellowship;
+    private BookDto towers;
+    private BookDto hound;
+    private CreateBookRequestDto requestDto;
 
     @BeforeAll
     static void beforeAll(
@@ -61,6 +65,36 @@ class BookControllerTest {
     @BeforeEach
     void setUp(@Autowired DataSource dataSource) {
         addThreeBooks(dataSource);
+
+        fellowship = new BookDto();
+        fellowship.setId(1L);
+        fellowship.setTitle("The Fellowship of the Ring");
+        fellowship.setAuthor("J. R. R. Tolkien");
+        fellowship.setIsbn("9780007136599");
+        fellowship.setPrice(BigDecimal.valueOf(520.55));
+        fellowship.setCategoryIds(Set.of());
+
+        towers = new BookDto();
+        towers.setId(2L);
+        towers.setTitle("The Two Towers");
+        towers.setAuthor("J. R. R. Tolkien");
+        towers.setIsbn("9780007136568");
+        towers.setPrice(BigDecimal.valueOf(490.95));
+        towers.setCategoryIds(Set.of());
+
+        hound = new BookDto();
+        hound.setId(3L);
+        hound.setTitle("The Hound of the Baskervilles");
+        hound.setAuthor("Sir Arthur Conan Doyle");
+        hound.setIsbn("0-14-020823-7");
+        hound.setPrice(BigDecimal.valueOf(179.95));
+        hound.setCategoryIds(Set.of());
+
+        requestDto = new CreateBookRequestDto();
+        requestDto.setTitle("1984");
+        requestDto.setAuthor("George Orwell");
+        requestDto.setIsbn("9780451524935");
+        requestDto.setPrice(BigDecimal.valueOf(372.55));
     }
 
     @AfterEach
@@ -72,30 +106,6 @@ class BookControllerTest {
     @WithMockUser
     @DisplayName("Get a list of all existing books")
     public void getAll_GivenBooks_ReturnsAllBooks() throws Exception {
-        BookDto fellowship = new BookDto();
-        fellowship.setId(1L);
-        fellowship.setTitle("The Fellowship of the Ring");
-        fellowship.setAuthor("J. R. R. Tolkien");
-        fellowship.setIsbn("9780007136599");
-        fellowship.setPrice(BigDecimal.valueOf(520.55));
-        fellowship.setCategoryIds(Set.of());
-
-        BookDto towers = new BookDto();
-        towers.setId(2L);
-        towers.setTitle("The Two Towers");
-        towers.setAuthor("J. R. R. Tolkien");
-        towers.setIsbn("9780007136568");
-        towers.setPrice(BigDecimal.valueOf(490.95));
-        towers.setCategoryIds(Set.of());
-
-        BookDto hound = new BookDto();
-        hound.setId(3L);
-        hound.setTitle("The Hound of the Baskervilles");
-        hound.setAuthor("Sir Arthur Conan Doyle");
-        hound.setIsbn("0-14-020823-7");
-        hound.setPrice(BigDecimal.valueOf(179.95));
-        hound.setCategoryIds(Set.of());
-
         List<BookDto> expected = new ArrayList<>();
         expected.add(fellowship);
         expected.add(towers);
@@ -118,14 +128,6 @@ class BookControllerTest {
     @WithMockUser
     @DisplayName("Get a book by valid ID")
     public void getBookById_GivenId_ReturnsBook() throws Exception {
-        BookDto expected = new BookDto();
-        expected.setId(1L);
-        expected.setTitle("The Fellowship of the Ring");
-        expected.setAuthor("J. R. R. Tolkien");
-        expected.setIsbn("9780007136599");
-        expected.setPrice(BigDecimal.valueOf(520.55));
-        expected.setCategoryIds(Set.of());
-
         MvcResult result = mockMvc.perform(get(BOOKS_URL + "/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -136,7 +138,7 @@ class BookControllerTest {
                 BookDto.class);
 
         assertNotNull(actual);
-        assertEquals(expected, actual);
+        assertEquals(fellowship, actual);
     }
 
     @Test
@@ -145,17 +147,11 @@ class BookControllerTest {
     public void createBook_GivenValidData_ReturnsBook() throws Exception {
         BookDto expected = new BookDto();
         expected.setId(4L);
-        expected.setTitle("1984");
-        expected.setAuthor("George Orwell");
-        expected.setIsbn("9780451524935");
-        expected.setPrice(BigDecimal.valueOf(372.55));
+        expected.setTitle(requestDto.getTitle());
+        expected.setAuthor(requestDto.getAuthor());
+        expected.setIsbn(requestDto.getIsbn());
+        expected.setPrice(requestDto.getPrice());
         expected.setCategoryIds(Set.of());
-
-        CreateBookRequestDto requestDto = new CreateBookRequestDto();
-        requestDto.setTitle(expected.getTitle());
-        requestDto.setAuthor(expected.getAuthor());
-        requestDto.setIsbn(expected.getIsbn());
-        requestDto.setPrice(expected.getPrice());
 
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         MvcResult result = mockMvc.perform(post(BOOKS_URL)
@@ -175,18 +171,12 @@ class BookControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Update existing book")
     public void updateBookById_GivenValidData_ReturnsBook() throws Exception {
-        CreateBookRequestDto requestDto = new CreateBookRequestDto();
-        requestDto.setTitle("Hobbit");
-        requestDto.setAuthor("J. R. R. Tolkien");
-        requestDto.setIsbn("9780007525508");
-        requestDto.setPrice(BigDecimal.valueOf(280.85));
-
         BookDto expected = new BookDto();
         expected.setId(1L);
-        expected.setTitle("Hobbit");
-        expected.setAuthor("J. R. R. Tolkien");
-        expected.setIsbn("9780007525508");
-        expected.setPrice(BigDecimal.valueOf(280.85));
+        expected.setTitle(requestDto.getTitle());
+        expected.setAuthor(requestDto.getAuthor());
+        expected.setIsbn(requestDto.getIsbn());
+        expected.setPrice(requestDto.getPrice());
         expected.setCategoryIds(Set.of());
 
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
@@ -206,15 +196,10 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    public void updateBookById_GivenInvalidId_Throws() throws Exception {
-        CreateBookRequestDto requestDto = new CreateBookRequestDto();
-        requestDto.setTitle("Hobbit");
-        requestDto.setAuthor("J. R. R. Tolkien");
-        requestDto.setIsbn("9780007525508");
-        requestDto.setPrice(BigDecimal.valueOf(280.85));
-
+    public void updateBookById_GivenInvalidId_BadRequestStatus() throws Exception {
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         mockMvc.perform(put(BOOKS_URL + "/-1")
+                        .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -231,7 +216,7 @@ class BookControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    public void deleteBookById_GivenInvalidId_NoContentStatus() throws Exception {
+    public void deleteBookById_GivenInvalidId_BadRequestStatus() throws Exception {
         mockMvc.perform(put(BOOKS_URL + "/-1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
