@@ -108,6 +108,6 @@ public class CategoryServiceImplTest {
     @DisplayName("Verify deleteById() method works")
     public void deleteById_ValidId_Success() {
         categoryService.deleteById(1L);
-        verify(categoryRepository, times(1)).deleteById(1L);
+        verify(categoryRepository).deleteById(1L);
     }
 }

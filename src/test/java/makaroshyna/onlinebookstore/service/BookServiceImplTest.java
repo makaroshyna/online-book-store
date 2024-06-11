@@ -106,6 +106,6 @@ class BookServiceImplTest {
     @DisplayName("Verify deleteById() method works")
     public void deleteById_ValidId_Success() {
         bookService.deleteById(1L);
-        verify(bookRepository, times(1)).deleteById(1L);
+        verify(bookRepository).deleteById(1L);
     }
 }
