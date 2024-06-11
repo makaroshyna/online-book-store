@@ -98,10 +98,10 @@ class BookControllerTest {
         requestDto.setPrice(BigDecimal.valueOf(372.55));
 
         responseDto = new BookDto();
-        responseDto.setTitle(requestDto.getTitle());
-        responseDto.setAuthor(requestDto.getAuthor());
-        responseDto.setIsbn(requestDto.getIsbn());
-        responseDto.setPrice(requestDto.getPrice());
+        responseDto.setTitle("1984");
+        responseDto.setAuthor("George Orwell");
+        responseDto.setIsbn("9780451524935");
+        responseDto.setPrice(BigDecimal.valueOf(372.55));
         responseDto.setCategoryIds(Set.of());
     }
 

@@ -51,6 +51,7 @@ class CategoryControllerTest {
     private CategoryResponseDto fantasy;
     private CategoryResponseDto novel;
     private CategoryResponseDto detective;
+    private CategoryResponseDto responseDto;
 
     @BeforeAll
     static void beforeAll(
@@ -98,6 +99,11 @@ class CategoryControllerTest {
         towers.setTitle("The Two Towers");
         towers.setIsbn("9780007136568");
         towers.setPrice(BigDecimal.valueOf(490.95));
+
+        responseDto = new CategoryResponseDto(
+                1L,
+                "Mystery",
+                "Mystery description");
     }
 
     @AfterEach
@@ -170,11 +176,6 @@ class CategoryControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Create a new category with valid data")
     public void createCategory_ValidCategory_ReturnsCategory() throws Exception {
-        CategoryResponseDto expected = new CategoryResponseDto(
-                1L,
-                requestDto.getName(),
-                requestDto.getDescription());
-
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         MvcResult result = mockMvc.perform(post(CATEGORIES_URL)
                         .content(jsonRequest)
@@ -186,17 +187,13 @@ class CategoryControllerTest {
                 result.getResponse().getContentAsString(),
                 CategoryResponseDto.class);
 
-        assertTrue(EqualsBuilder.reflectionEquals(expected, actual, "id"));
+        assertTrue(EqualsBuilder.reflectionEquals(responseDto, actual, "id"));
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Update a category with valid ID")
     public void updateCategoryById_ValidId_ReturnsCategory() throws Exception {
-        CategoryResponseDto expected = new CategoryResponseDto(
-                1L,
-                requestDto.getName(),
-                requestDto.getDescription());
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         MvcResult result = mockMvc.perform(put(CATEGORIES_URL + "/1")
                         .content(jsonRequest)
@@ -209,7 +206,7 @@ class CategoryControllerTest {
                 CategoryResponseDto.class);
 
         assertNotNull(actual);
-        assertEquals(expected, actual);
+        assertEquals(responseDto, actual);
     }
 
     @Test
