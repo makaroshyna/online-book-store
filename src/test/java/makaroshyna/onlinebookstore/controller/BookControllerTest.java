@@ -49,6 +49,7 @@ class BookControllerTest {
     private BookDto towers;
     private BookDto hound;
     private CreateBookRequestDto requestDto;
+    private BookDto responseDto;
 
     @BeforeAll
     static void beforeAll(
@@ -95,6 +96,13 @@ class BookControllerTest {
         requestDto.setAuthor("George Orwell");
         requestDto.setIsbn("9780451524935");
         requestDto.setPrice(BigDecimal.valueOf(372.55));
+
+        responseDto = new BookDto();
+        responseDto.setTitle(requestDto.getTitle());
+        responseDto.setAuthor(requestDto.getAuthor());
+        responseDto.setIsbn(requestDto.getIsbn());
+        responseDto.setPrice(requestDto.getPrice());
+        responseDto.setCategoryIds(Set.of());
     }
 
     @AfterEach
@@ -145,13 +153,7 @@ class BookControllerTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Create a new book with valid data")
     public void createBook_GivenValidData_ReturnsBook() throws Exception {
-        BookDto expected = new BookDto();
-        expected.setId(4L);
-        expected.setTitle(requestDto.getTitle());
-        expected.setAuthor(requestDto.getAuthor());
-        expected.setIsbn(requestDto.getIsbn());
-        expected.setPrice(requestDto.getPrice());
-        expected.setCategoryIds(Set.of());
+        responseDto.setId(4L);
 
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         MvcResult result = mockMvc.perform(post(BOOKS_URL)
@@ -164,20 +166,14 @@ class BookControllerTest {
                 result.getResponse().getContentAsString(),
                 BookDto.class);
 
-        assertTrue(EqualsBuilder.reflectionEquals(expected, actual, "id"));
+        assertTrue(EqualsBuilder.reflectionEquals(responseDto, actual, "id"));
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Update existing book")
     public void updateBookById_GivenValidData_ReturnsBook() throws Exception {
-        BookDto expected = new BookDto();
-        expected.setId(1L);
-        expected.setTitle(requestDto.getTitle());
-        expected.setAuthor(requestDto.getAuthor());
-        expected.setIsbn(requestDto.getIsbn());
-        expected.setPrice(requestDto.getPrice());
-        expected.setCategoryIds(Set.of());
+        responseDto.setId(1L);
 
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         MvcResult result = mockMvc.perform(put(BOOKS_URL + "/1")
@@ -191,7 +187,7 @@ class BookControllerTest {
                 BookDto.class);
 
         assertNotNull(actual);
-        assertEquals(expected, actual);
+        assertEquals(responseDto, actual);
     }
 
     @Test
