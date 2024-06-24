@@ -13,12 +13,13 @@ import makaroshyna.onlinebookstore.dto.book.CreateBookRequestDto;
 import makaroshyna.onlinebookstore.mapper.BookMapper;
 import makaroshyna.onlinebookstore.model.Book;
 import makaroshyna.onlinebookstore.repository.book.BookRepository;
+import makaroshyna.onlinebookstore.repository.book.BookSpecificationBuilder;
 import makaroshyna.onlinebookstore.service.book.BookService;
+import makaroshyna.onlinebookstore.service.book.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
@@ -33,11 +34,14 @@ class BookServiceImplTest {
     private BookRepository bookRepository;
     @Mock
     private BookMapper bookMapper;
-    @InjectMocks
+    @Mock
+    private BookSpecificationBuilder bookSpecificationBuilder;
     private BookService bookService;
 
     @BeforeEach
     void setUp() {
+        bookService = new BookServiceImpl(bookRepository, bookMapper, bookSpecificationBuilder);
+
         requestDto = new CreateBookRequestDto();
         requestDto.setTitle("Test Title");
 

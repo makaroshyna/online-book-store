@@ -13,12 +13,12 @@ import makaroshyna.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import makaroshyna.onlinebookstore.mapper.CategoryMapper;
 import makaroshyna.onlinebookstore.model.Category;
 import makaroshyna.onlinebookstore.repository.category.CategoryRepository;
+import makaroshyna.onlinebookstore.service.book.BookService;
 import makaroshyna.onlinebookstore.service.category.CategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
@@ -33,11 +33,14 @@ public class CategoryServiceImplTest {
     private CategoryRepository categoryRepository;
     @Mock
     private CategoryMapper categoryMapper;
-    @InjectMocks
+    @Mock
+    private BookService bookService;
     private CategoryServiceImpl categoryService;
 
     @BeforeEach
     void setUp() {
+        categoryService = new CategoryServiceImpl(categoryRepository, categoryMapper, bookService);
+
         requestDto = new CreateCategoryRequestDto();
         requestDto.setName("Test category");
         requestDto.setDescription("Test description");
