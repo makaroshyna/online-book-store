@@ -212,5 +212,5 @@ to access the Swagger API documentation.
 
 ## 💁‍♀️ Author
 
-* LinkedIn: [Katya Makarchuk](https://www.linkedin.com/in/katya-makarchuk-a89bab217/)
+* LinkedIn: [Kateryna Makarchuk](https://www.linkedin.com/in/kateryna-makarchuk-a89bab217)
 * GitHub: [makaroshyna](https://github.com/makaroshyna)
